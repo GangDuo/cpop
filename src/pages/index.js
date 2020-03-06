@@ -10,11 +10,7 @@ export default () => (
       query AllGoods {
         allGoodsCsv {
           nodes {
-            GoodsName
-            JAN
-            SupplierCode
-            WithTax
-            WithoutTax
+            ...GoodsCsvFragment
           }
         }
       }
