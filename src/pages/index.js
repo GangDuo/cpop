@@ -1,21 +1,54 @@
 import React from "react"
-import { Link } from "gatsby"
+import { StaticQuery, graphql } from "gatsby"
 
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
 
-const IndexPage = () => (
+export default () => (
+  <StaticQuery
+    query={graphql`
+      query AllGoods {
+        allGoodsCsv {
+          nodes {
+            GoodsName
+            JAN
+            SupplierCode
+            WithTax
+            WithoutTax
+          }
+        }
+      }
+    `}
+    render={data => <IndexPage data={data} />}
+  />
+)
+
+const IndexPage = ({ data }) => (
   <Layout>
     <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
+
+    {data.allGoodsCsv.nodes.length > 0 &&
+      nTuple(data.allGoodsCsv.nodes, 3).map((xs, i) => (
+        <div key={i} className="row">
+          {xs.map((x, j) => (
+            <span key={`${i}_${j}`}>{`${x.GoodsName}　　　　`}</span>
+          ))}
+        </div>
+      ))}
+    <style>{`
+    .row {
+      display: flex;
+      height: 131px;
+    }
+    `}</style>
   </Layout>
 )
 
-export default IndexPage
+function nTuple(array, n) {
+  return array.reduce((ax, x, i) => {
+    const quotient = Math.trunc(i/n)
+    ax[quotient] = ax[quotient] || []
+    ax[quotient].push(x)
+    return ax
+  }, [])
+}
