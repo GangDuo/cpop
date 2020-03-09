@@ -3,6 +3,7 @@ import { StaticQuery, graphql } from "gatsby"
 
 import Layout from "../components/layout"
 import EanImg from "../components/ean-image"
+import GoodsImg from "../components/goods-image"
 import SEO from "../components/seo"
 
 export default () => (
@@ -28,19 +29,28 @@ const IndexPage = ({ data }) => (
       nTuple(data.allGoodsCsv.nodes, 3).map((xs, i) => (
         <div key={i} className="row">
           {xs.map((x, j) => (
-            <span key={`${i}_${j}`}>
-              {`${x.GoodsName}　　　　`}<br/>
-              <EanImg code={x.JAN} /><br/>
-              {x.JAN}
-            </span>
+            <div key={`${i}_${j}`} className="vsplit-container">
+              <div className="vsplit-left"><GoodsImg code={x.JAN} /></div>
+              <div className="vsplit-right">
+                {`${x.GoodsName}`}<br/>
+                <EanImg code={x.JAN} /><br/>
+                {x.JAN}
+              </div>
+            </div>
           ))}
         </div>
       ))}
-    <style>{`
+    <style jsx>{`
     .row {
       display: flex;
       height: 131px;
     }
+    .vsplit-container {
+      width: 220px;
+      display: flex;
+    }
+    .vsplit-left {width: 30%;}
+    .vsplit-right {width: 70%;}
     `}</style>
   </Layout>
 )
