@@ -35,6 +35,9 @@ const EanImg = (props) => (
           alt={props.alt}
           sizes={imageSizes}
           fixed={image.node.childImageSharp.fixed}
+          objectFit="cover"
+          objectPosition="50% 50%"
+
         />
         </>
       );

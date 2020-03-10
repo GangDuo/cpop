@@ -1,0 +1,107 @@
+import React from "react"
+import EanImg from "./ean-image"
+import GoodsImg from "./goods-image"
+
+function PriceTag(props) {
+  const {JAN, GoodsName, WithoutTax, WithTax, SupplierCode} = props
+  const formatedWithoutTax = Number(WithoutTax).toLocaleString()
+  const formatedWithTax = Number(WithTax).toLocaleString()
+
+  return(
+  <>
+    <div className="list-content">
+      <div className="vsplit-container">
+        <div className="vsplit-left"><GoodsImg code={JAN} /></div>
+        <div className="vsplit-right list-content">
+          <div className="goods-name">{GoodsName}</div>
+          <div className="text-right goods-price-wrapper font-weight-bold">
+            <span className="goods-price">{`¥${formatedWithoutTax}`}</span>
+            <span className="label-tax">+税</span>
+          </div>
+          <div className="text-right goods-price-with-tax font-weight-bold">{`(税込${formatedWithTax})`}</div>
+          <EanImg code={JAN} />
+          <div className="text-center barcode-txt">
+            <span>{JAN}</span>
+            <span>&nbsp;&nbsp;&nbsp;{SupplierCode}</span>
+          </div>
+        </div>
+      </div>
+      <div className="text-center">
+        <span className="company">HUMPTY DUMPTY</span>
+      </div>
+    </div>
+    <style>{`
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: "MS UI Gothic", sans-serif;
+    }
+    body {
+      font-size: 9pt;
+      font-weight: normal;
+    }
+    div {
+      display: block;
+    }
+    .text-center { text-align: center; }
+    .text-right { text-align: right; }
+    .font-weight-bold { font-weight: 700; }
+
+    .vsplit-container {
+      width: 212px;
+      display: flex;
+    }
+    .vsplit-left {
+      width: 84px;
+    }
+    .vsplit-right {
+      width: 128px;
+      height: 107px;
+    }
+    .list-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .goods-name {
+      font-size: 15px;
+      height: 30px;
+      overflow: hidden;
+
+      word-break: break-all;
+      white-space: normal;
+      line-height: 100%;
+      color: rgb(0, 0, 0);
+      font-family: "ＭＳ ゴシック", monospace;
+    }
+    .goods-price-wrapper {
+      color: #000;
+    }
+    .goods-price {
+      font-size: 20pt !important;
+    }
+    .label-tax {
+      font-size: 10pt !important;
+    }
+    .goods-price-with-tax {
+      color: #000;
+      font-size: 10pt !important;
+    }
+    .barcode-txt {
+      color: #000;
+    }
+    .company {
+      height: 5px;
+      white-space: nowrap;
+      /*padding-right: 3px;*/
+      vertical-align: middle;
+      font-size: 10.5pt;
+      font-family: 'Arial Black'; 
+      color: rgb(191, 25, 32);
+    }
+    `}</style>
+  </>
+  );
+}
+
+export default PriceTag
