@@ -20,22 +20,46 @@ export default () => (
   />
 )
 
-const IndexPage = ({ data }) => (
+const IndexPage = ({ data }) => {
+  const goodsBySubcategory = data.allGoodsCsv.nodes
+    .reduce((ax, x) => {
+      ax[x.SubcategoryCode] = ax[x.SubcategoryCode] || []
+      ax[x.SubcategoryCode].push(x)
+      return ax
+    }, {})
+
+  const chapters = Object.keys(goodsBySubcategory).map(subcategory => {
+    const goods = goodsBySubcategory[subcategory]
+    const sample = goods[0]
+    const code = sample.SubcategoryCode
+    const name = sample.SubcategoryName
+
+    return {
+      title: `${code} ${name}`,
+      pages: nTuple(nTuple(goods, 3), 7)
+    }
+  })
+
+  return (
   <Layout>
     <SEO title="Home" />
-    
-    <div className="page">
-    {data.allGoodsCsv.nodes.length > 0 &&
-      nTuple(data.allGoodsCsv.nodes, 3).map((xs, i) => (
-        <div key={i} className="row">
-          {xs.map((x, j) => (
-            <PriceTag key={`${i}_${j}`} {...x} />
-        ))}
+
+    {chapters.length > 0 && chapters.map((chapter, c) => (
+      <div key={c} className="chapter">{chapter.pages.map((page, p) => (
+        <div key={p} className="sheet">
+          <div className="sheet-title">{chapter.title}</div>
+          {page.map((rows, i) => (
+            <div key={i} className="row">
+              {rows.map(columns => (<PriceTag key={columns.id} {...columns} />))}
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
+        ))}
+      </div>)
+    )}
+
     <style jsx>{`
-    .page {
+    .chapter {
       width: 638px;
     }
     .row {
@@ -44,7 +68,7 @@ const IndexPage = ({ data }) => (
     }
     `}</style>
   </Layout>
-)
+)}
 
 function nTuple(array, n) {
   return array.reduce((ax, x, i) => {
