@@ -50,13 +50,13 @@ function PriceTag(props) {
     .vsplit-container {
       width: 212px;
       display: flex;
+      height: 107px;
     }
     .vsplit-left {
       width: 84px;
     }
     .vsplit-right {
       width: 128px;
-      height: 107px;
     }
     .list-content {
       display: flex;

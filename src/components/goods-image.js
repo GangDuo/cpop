@@ -1,6 +1,6 @@
 import React from "react"
 import { StaticQuery, graphql } from "gatsby"
-import Img from "gatsby-image"
+import Img from "gatsby-image/withIEPolyfill"
 
 const GoodsImg = (props) => (
   <StaticQuery
@@ -33,8 +33,8 @@ const GoodsImg = (props) => (
         <Img
           alt={props.alt}
           sizes={imageSizes}
-          objectFit="cover"
-          objectPosition="50% 50%"
+          objectFit="contain"
+          style={{height: "100%"}}
         />
       );
     }}
