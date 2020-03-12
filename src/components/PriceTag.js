@@ -6,10 +6,11 @@ function PriceTag(props) {
   const {JAN, GoodsName, WithoutTax, WithTax, SupplierCode} = props
   const formatedWithoutTax = Number(WithoutTax).toLocaleString()
   const formatedWithTax = Number(WithTax).toLocaleString()
+  const isEmpty = !JAN
 
   return(
   <>
-    <div className="list-content">
+    <div className={`list-content ${isEmpty ? 'is-empty' : ''}`.trim()}>
       <div className="vsplit-container">
         <div className="vsplit-left"><GoodsImg code={JAN} /></div>
         <div className="vsplit-right list-content">
@@ -43,6 +44,7 @@ function PriceTag(props) {
     div {
       display: block;
     }
+    .is-empty { visibility:hidden; }
     .text-center { text-align: center; }
     .text-right { text-align: right; }
     .font-weight-bold { font-weight: 700; }
@@ -73,6 +75,8 @@ function PriceTag(props) {
       line-height: 100%;
       color: rgb(0, 0, 0);
       font-family: "ＭＳ ゴシック", monospace;
+
+      border-bottom: dotted 1.3px rgba(184, 165, 139, 1)
     }
     .goods-price-wrapper {
       color: #000;

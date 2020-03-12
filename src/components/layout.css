@@ -1,1 +1,8 @@
-body {background: #eee;}
+@import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css");
+@page { size: A4 }
+
+@media print {
+    header,
+    footer { display: none; }
+}
