@@ -6,6 +6,13 @@ const GoodsImg = (props) => (
   <StaticQuery
     query={graphql`
       query {
+        placeholderImage: file(relativePath: { eq: "now-printing.jpg" }) {
+          childImageSharp {
+            fluid {
+              ...GatsbyImageSharpFluid
+            }
+          }
+        },
         images: allFile {
           edges {
             node {
@@ -26,7 +33,14 @@ const GoodsImg = (props) => (
       const image = data.images.edges.find(n => {
         return n.node.relativePath.includes(`goods/${props.code}.jpg`);
       });
-      if (!image) { return null; }
+      if (!image) {
+        return (
+          <Img 
+            fluid={data.placeholderImage.childImageSharp.fluid}
+            objectFit="contain"
+            style={{height: "100%"}}/>
+        )
+      }
 
       const imageSizes = image.node.childImageSharp.sizes;
       return (
