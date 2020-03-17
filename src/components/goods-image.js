@@ -2,6 +2,11 @@ import React from "react"
 import { StaticQuery, graphql } from "gatsby"
 import Img from "gatsby-image/withIEPolyfill"
 
+const wrapperStyle = {
+  height: "100%",
+  margin: '0 5px'
+}
+
 const GoodsImg = (props) => (
   <StaticQuery
     query={graphql`
@@ -38,7 +43,7 @@ const GoodsImg = (props) => (
           <Img 
             fluid={data.placeholderImage.childImageSharp.fluid}
             objectFit="contain"
-            style={{height: "100%"}}/>
+            style={wrapperStyle}/>
         )
       }
 
@@ -48,7 +53,7 @@ const GoodsImg = (props) => (
           alt={props.alt}
           sizes={imageSizes}
           objectFit="contain"
-          style={{height: "100%"}}
+          style={wrapperStyle}
         />
       );
     }}
