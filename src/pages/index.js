@@ -4,6 +4,7 @@ import { StaticQuery, graphql } from "gatsby"
 import Layout from "../components/layout"
 import PriceTag from "../components/PriceTag"
 import SEO from "../components/seo"
+import OverallLine from "../components/overall-line"
 
 export default () => (
   <StaticQuery
@@ -19,6 +20,9 @@ export default () => (
     render={data => <IndexPage data={data} />}
   />
 )
+
+const verticalLines = [21, 77, 133, 189]
+const horizontalLines = [27, 62, 97, 131.5, 166.5, 200.5, 235, 270]
 
 const IndexPage = ({ data }) => {
   const goodsBySubcategory = data.allGoodsCsv.nodes
@@ -50,6 +54,17 @@ const IndexPage = ({ data }) => {
     {chapters.length > 0 && chapters.map((chapter, c) => (
       <section key={c} className="chapter">{chapter.pages.map((page, p) => (
         <article key={p} className="sheet">
+          {
+            verticalLines.map((x, i) => (
+              <OverallLine key={i} isVerticality left={`${x}mm`} />
+            ))
+          }
+          {
+            horizontalLines.map((x, i) => (
+              <OverallLine key={i} top={`${x}mm`} />
+            ))
+          }
+
           <div className="sheet-title">{chapter.title}</div>
           {page.map((rows, i) => (
             <div key={i} className="row">
