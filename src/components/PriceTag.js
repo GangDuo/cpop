@@ -13,7 +13,7 @@ function PriceTag(props) {
     <div className={`list-content ${isEmpty ? 'is-empty' : ''}`.trim()}>
       <div className="vsplit-container">
         <div className="vsplit-left"><GoodsImg code={JAN} /></div>
-        <div className="vsplit-right list-content">
+        <div className="vsplit-right list-content justify-content-between">
           <div className="goods-name">{GoodsName}</div>
           <div className="text-right goods-price-wrapper font-weight-bold">
             <span className="goods-price">{`¥${formatedWithoutTax}`}</span>
@@ -31,23 +31,8 @@ function PriceTag(props) {
         <span className="company">HUMPTY DUMPTY</span>
       </div>
     </div>
-    <style>{`
-    * {
-      margin: 0;
-      padding: 0;
-      font-family: "MS UI Gothic", sans-serif;
-    }
-    body {
-      font-size: 9pt;
-      font-weight: normal;
-    }
-    div {
-      display: block;
-    }
+    <style jsx>{`
     .is-empty { visibility:hidden; }
-    .text-center { text-align: center; }
-    .text-right { text-align: right; }
-    .font-weight-bold { font-weight: 700; }
 
     .vsplit-container {
       width: 212px;
@@ -63,7 +48,6 @@ function PriceTag(props) {
     .list-content {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
     }
     .goods-name {
       font-size: 15px;
