@@ -1,21 +1,112 @@
 import React from "react"
-import { Link } from "gatsby"
+import { StaticQuery, graphql } from "gatsby"
 
 import Layout from "../components/layout"
-import Image from "../components/image"
+import PriceTag from "../components/PriceTag"
 import SEO from "../components/seo"
+import OverallLine from "../components/overall-line"
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
+export default () => (
+  <StaticQuery
+    query={graphql`
+      query AllGoods {
+        allGoodsCsv {
+          nodes {
+            ...GoodsCsvFragment
+          }
+        }
+      }
+    `}
+    render={data => <IndexPage data={data} />}
+  />
 )
 
-export default IndexPage
+const verticalLines = [21, 77, 133, 189]
+const horizontalLines = [27, 62, 97, 131.5, 166.5, 200.5, 235, 270]
+
+const IndexPage = ({ data }) => {
+  const goodsBySubcategory = data.allGoodsCsv.nodes
+    .reduce((ax, x) => {
+      ax[x.SubcategoryCode] = ax[x.SubcategoryCode] || []
+      ax[x.SubcategoryCode].push(x)
+      return ax
+    }, {})
+
+  const chapters = Object.keys(goodsBySubcategory).map(subcategory => {
+    const radix = 21
+    const padding = radix - Math.floor(goodsBySubcategory[subcategory].length % radix)
+    const goods = [...goodsBySubcategory[subcategory],
+                   ...[...Array(padding).keys()].map(i => ({id: ++i}))]
+    const sample = goods[0]
+    const code = sample.SubcategoryCode
+    const name = sample.SubcategoryName
+    
+    return {
+      title: `${code} ${name}`,
+      pages: nTuple(nTuple(goods, 3), 7)
+    }
+  })
+
+  return (
+  <Layout>
+    <SEO title="Home" />
+
+    {chapters.length > 0 && chapters.map((chapter, c) => (
+      <section key={c} className="chapter">{chapter.pages.map((page, p) => (
+        <article key={p} className="sheet">
+          {
+            verticalLines.map((x, i) => (
+              <OverallLine key={i} isVerticality left={`${x}mm`} />
+            ))
+          }
+          {
+            horizontalLines.map((x, i) => (
+              <OverallLine key={i} top={`${x}mm`} />
+            ))
+          }
+
+          <div className="sheet-title">{chapter.title}</div>
+          {page.map((rows, i) => (
+            <div key={i} className="row">
+              {rows.map(columns => (<PriceTag key={columns.id} {...columns} />))}
+            </div>
+          ))}
+        </article>
+        ))}
+      </section>)
+    )}
+
+    <style jsx>{`
+    .chapter {
+      
+    }
+    .sheet {
+      /* 上下中央 */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .row {
+      display: flex;
+      height: 131px;
+      /* 左右中央揃え */
+      width: 638px;
+      margin: 0 auto;
+    }
+    .sheet-title {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+    }
+    `}</style>
+  </Layout>
+)}
+
+function nTuple(array, n) {
+  return array.reduce((ax, x, i) => {
+    const quotient = Math.trunc(i/n)
+    ax[quotient] = ax[quotient] || []
+    ax[quotient].push(x)
+    return ax
+  }, [])
+}
