@@ -10,7 +10,7 @@ function PriceTag(props) {
 
   return(
   <>
-    <div className={`list-content ${isEmpty ? 'is-empty' : ''}`.trim()}>
+    <div className={`list-content justify-content-end ${isEmpty ? 'is-empty' : ''}`.trim()}>
       <div className="vsplit-container">
         <div className="vsplit-left"><GoodsImg code={JAN} /></div>
         <div className="vsplit-right list-content justify-content-between">
@@ -60,6 +60,7 @@ function PriceTag(props) {
       color: rgb(0, 0, 0);
       font-family: "ＭＳ ゴシック", monospace;
 
+      padding-bottom: 1px;/* これないと'y'の下部分が商品名の下線と重なる */
       border-bottom: dotted 1.3px rgba(184, 165, 139, 1)
     }
     .goods-price-wrapper {

@@ -23,4 +23,5 @@ div {
 .text-center { text-align: center; }
 .text-right { text-align: right; }
 .font-weight-bold { font-weight: 700; }
+.justify-content-end { justify-content: flex-end; }
 .justify-content-between { justify-content: space-between; }
